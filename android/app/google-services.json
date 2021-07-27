@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "548971694059",
+    "project_id": "cadr-11663",
+    "storage_bucket": "cadr-11663.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548971694059:android:7ed8a08ef15226b91a3bae",
+        "android_client_info": {
+          "package_name": "com.Center_Ageing_and_Dementia_Research.cadr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548971694059-s5k04qtschnh35ft6mm9okl3lksrkoup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANQXsQq4NdQxZZCsclvCG_CFHGOLvEY74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548971694059-s5k04qtschnh35ft6mm9okl3lksrkoup.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
