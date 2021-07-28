@@ -37,9 +37,9 @@ class AuthenticationService {
     }
   }
   //Register Function
-  Future registerToDataBase (String firstName, String lastName, String email, String password) async {
+  Future registerToDataBase (String email, String password) async {
     try {
-      AuthResult result = await _authenticate.createUserWithEmailAndPassword (email: email, password: password);
+      AuthResult result = await _authenticate.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       return _userFromFirebaseUser(user);
     }catch(e){
