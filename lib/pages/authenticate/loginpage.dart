@@ -21,14 +21,6 @@ class _LoginPage extends State<LoginPage> {
 
   final GlobalKey _formKey = GlobalKey<FormState>();
 
-  // void validate(){
-  //   if(_formkey.currentState!.validate()) {
-  //     print ("Validated");
-  //   }else{
-  //     print ("Not Validated");
-  //   }
-  // }
-
   String? validatePassword(value){
     if(value.isEmpty){
       return "Password cannot be empty";
@@ -40,6 +32,9 @@ class _LoginPage extends State<LoginPage> {
       return null;
     }
   }
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -69,21 +64,19 @@ class _LoginPage extends State<LoginPage> {
                   ),
 
                   TextFormField(
-                    onChanged: (val) {
-                      setState(() => email = val);
+                    controller: _emailController,
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'Email Cannot be Empty';
+                      }else {
+                        return null;
+                      }
                     },
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                         ),
 
                         labelText: "Email"
-                    ),
-
-                    validator: MultiValidator(
-                        [
-                          RequiredValidator(errorText: "Email Cannot be Empty"),
-                          EmailValidator(errorText: "Not a Valid Email."),
-                        ]
                     ),
                   ),
                   Padding(
@@ -92,15 +85,19 @@ class _LoginPage extends State<LoginPage> {
                     ),
                     child: TextFormField(
                       obscureText: true,
-                      onChanged: (val) {
-                        setState(() => password = val);
+                      controller: _passwordController,
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return 'Password Cannot be Empty';
+                        }else {
+                          return null;
+                        }
                       },
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                           ),
                           labelText: "Password"
                       ),
-                      validator: validatePassword,
                     ),
                   ),
                   Padding(
@@ -109,8 +106,7 @@ class _LoginPage extends State<LoginPage> {
                     ),
                     child: FlatButton.icon(
                       onPressed: () async {
-                        print(email);
-                        print(password);
+                        login();
                         Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                       },
                       icon: Icon(
@@ -167,5 +163,20 @@ class _LoginPage extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  Future<void> login() async {
+    dynamic result = await _authenticate.loginUser(
+        _emailController.text, _passwordController.text
+    );
+    if (result == null) {
+      print("Error Logging in, Please check your Username and password");
+
+    }else {
+      _emailController.clear();
+      _passwordController.clear();
+      print('Successfully Logged in');
+
+    }
   }
 }

@@ -15,18 +15,6 @@ class AuthenticationService {
     .map(_userFromFirebaseUser);
   }
 
-  // Anonymous Sign in
-  Future signInAsAnonymous() async {
-    try {
-      AuthResult result = await _authenticate.signInAnonymously();
-      FirebaseUser user = result.user;
-      return user;
-    }catch(e) {
-      print(e.toString());
-      return null;
-    }
-  }
-
   // Log out function
   Future signOut() async {
     try {
@@ -39,12 +27,29 @@ class AuthenticationService {
   //Register Function
   Future registerToDataBase (String email, String password) async {
     try {
-      AuthResult result = await _authenticate.createUserWithEmailAndPassword(email: email, password: password);
+      AuthResult result = await _authenticate.createUserWithEmailAndPassword(
+          email: email, password: password
+      );
       FirebaseUser user = result.user;
-      return _userFromFirebaseUser(user);
+      //return _userFromFirebaseUser(user);
+      return user;
     }catch(e){
       print(e.toString());
       return null;
+    }
+  }
+
+  //Register Function
+  Future loginUser (String email, String password) async {
+    try {
+      AuthResult result = await _authenticate.signInWithEmailAndPassword(
+          email: email, password: password
+      );
+      FirebaseUser user = result.user;
+      return user;
+    }catch(e){
+      print(e.toString());
+      //return null;
     }
   }
 }

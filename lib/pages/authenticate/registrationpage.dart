@@ -1,6 +1,7 @@
 import 'package:cadr/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
+
+import 'loginpage.dart';
 
 class RegistrationPage extends StatefulWidget {
 
@@ -15,9 +16,10 @@ class _RegistrationState extends State<RegistrationPage> {
   final AuthenticationService _authenticate = AuthenticationService();
   final _formKey = GlobalKey<FormState>();
 
-  String email = "";
-  String password = "";
-  String error = "";
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
 
 
@@ -53,54 +55,66 @@ class _RegistrationState extends State<RegistrationPage> {
                   ),
 
                   //First Name Column
-                  // TextFormField(
-                  //   validator: (val) => val!.isEmpty? 'Enter an Firstname' : null,
-                  //   onChanged: (val) {
-                  //     setState(() => firstName = val);
-                  //   },
-                  //   decoration: InputDecoration(
-                  //       border: OutlineInputBorder(
-                  //       ),
-                  //
-                  //       labelText: "First Name"
-                  //   ),
-                  //   //validator: validateName,
-                  // ),
-                  //
-                  // // First Name Padding
-                  // Padding(
-                  //   padding: EdgeInsets.only(
-                  //     top: 15.0,
-                  //   ),
-                  // ),
-                  //
-                  // //Last Name Column
-                  // TextFormField(
-                  //   validator: (val) => val!.isEmpty? 'Enter an Lastname' : null,
-                  //   onChanged: (val) {
-                  //     setState(() => lastName = val);
-                  //   },
-                  //   decoration: InputDecoration(
-                  //       border: OutlineInputBorder(
-                  //       ),
-                  //
-                  //       labelText: "Last Name"
-                  //   ),
-                  //   //validator: validateName,
-                  // ),
-                  //
-                  // //Last Name Padding
-                  // Padding(
-                  //   padding: EdgeInsets.only(
-                  //     top: 15.0,
-                  //   ),
-                  // ),
+                  TextFormField(
+                    controller: _firstNameController,
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'Please put First Name';
+                      }else {
+                        return null;
+                      }
+                    },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                        ),
+
+                        labelText: "First Name"
+                    ),
+                    //validator: validateName,
+                  ),
+
+                  // First Name Padding
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 15.0,
+                    ),
+                  ),
+
+                  //Last Name Column
+                  TextFormField(
+                    controller: _lastNameController,
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'Please put Last Name';
+                      }else {
+                        return null;
+                      }
+                    },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                        ),
+
+                        labelText: "Last Name"
+                    ),
+                    //validator: validateName,
+                  ),
+
+                  //Last Name Padding
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 15.0,
+                    ),
+                  ),
 
                   //Email Column
                   TextFormField(
-                    validator: (val) => val!.isEmpty? 'Enter an Email' : null,
-                    onChanged: (val) {
-                      setState(() => email = val);
+                    controller: _emailController,
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'Email cannot be empty';
+                      }else {
+                        return null;
+                      }
                     },
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -119,10 +133,14 @@ class _RegistrationState extends State<RegistrationPage> {
 
                   // Password Field
                   TextFormField(
-                    validator: (val) => val!.length < 6 ? 'Enter a password 6+ characters ' : null,
                     obscureText: true,
-                    onChanged: (val) {
-                      setState(() => password = val);
+                    controller: _passwordController,
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'Password cannot be empty';
+                      }else {
+                        return null;
+                      }
                     },
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -142,10 +160,8 @@ class _RegistrationState extends State<RegistrationPage> {
                   FlatButton.icon(
                     onPressed: () async {
                       if(_formKey.currentState!.validate()){
-                        dynamic result = await _authenticate.registerToDataBase(email, password);
-                        if (result == null){
-                          setState(() => error = "Please input a valid email address");
-                        }
+                        createUser();
+
                       }
                     },
                     icon: Icon(
@@ -155,12 +171,6 @@ class _RegistrationState extends State<RegistrationPage> {
                     color: Colors.green[200],
                     minWidth: 350,
                     height: 40,
-                  ),
-
-                  SizedBox(height: 12.0),
-                  Text(
-                    error,
-                    style: TextStyle(color: Colors.red, fontSize: 14.0)
                   ),
 
 
@@ -197,4 +207,23 @@ class _RegistrationState extends State<RegistrationPage> {
       ),
     );
   }
+
+
+  void createUser() async {
+  dynamic result = await _authenticate.registerToDataBase(
+    _emailController.text, _passwordController.text
+  );
+  if (result == null) {
+    print("Invalid Email Address");
+
+  }else {
+    print(result.toString());
+    _firstNameController.clear();
+    _lastNameController.clear();
+    _emailController.clear();
+    _passwordController.clear();
+
+  }
+  }
 }
+
