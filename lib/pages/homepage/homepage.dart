@@ -4,7 +4,6 @@ import 'package:cadr/services/auth.dart';
 
 
 class HomePage extends StatelessWidget {
-  final AuthenticationService _authenticate = AuthenticationService();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class HomePage extends StatelessWidget {
               label: Text(""),
               onPressed: () async {
                 // Sign out on clicked
-                await _authenticate.signOut();
+
               }
           )
         ],

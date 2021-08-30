@@ -1,6 +1,7 @@
 import 'package:cadr/pages/homepage/homepage.dart';
 import 'package:cadr/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,28 +14,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
-  final AuthenticationService _authenticate = AuthenticationService();
-
-  //Text Field State
-  String email = "";
-  String password = "";
-
+  //final AuthenticationService _authenticate = AuthenticationService();
   final GlobalKey _formKey = GlobalKey<FormState>();
 
-  String? validatePassword(value){
-    if(value.isEmpty){
-      return "Password cannot be empty";
-    }else if(value.length < 10){
-      return "Password characters cannot be less than 10";
-    }else if (value.length > 15) {
-      return "Password Characers cannot be more than 15";
-    }else{
-      return null;
-    }
-  }
-
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +36,6 @@ class _LoginPage extends State<LoginPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-
                   Container(
                     margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 70.0),
                     child: Image(
@@ -62,7 +45,6 @@ class _LoginPage extends State<LoginPage> {
                     ),
 
                   ),
-
                   TextFormField(
                     controller: _emailController,
                     validator: (val) {
@@ -83,21 +65,22 @@ class _LoginPage extends State<LoginPage> {
                     padding: EdgeInsets.only(
                       top: 15.0,
                     ),
-                    child: TextFormField(
-                      obscureText: true,
-                      controller: _passwordController,
-                      validator: (val) {
-                        if (val!.isEmpty) {
-                          return 'Password Cannot be Empty';
-                        }else {
-                          return null;
-                        }
-                      },
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                          ),
-                          labelText: "Password"
-                      ),
+                  ),
+
+                  TextFormField(
+                    controller: _passwordController,
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'Password Cannot be Empty';
+                      }else {
+                        return null;
+                      }
+                    },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                        ),
+
+                        labelText: "Password"
                     ),
                   ),
                   Padding(
@@ -106,8 +89,18 @@ class _LoginPage extends State<LoginPage> {
                     ),
                     child: FlatButton.icon(
                       onPressed: () async {
-                        login();
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                        final String email = _emailController.text.trim();
+                        final String password = _passwordController.text.trim();
+
+                        if(email.isEmpty || password.isEmpty) {
+                          return null;
+                        }else{
+                          context.read<AuthenticationService>().loginUser(
+                            email,
+                            password,
+                          );
+                        }
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                       },
                       icon: Icon(
                           Icons.login
@@ -121,40 +114,42 @@ class _LoginPage extends State<LoginPage> {
 
                   Container(
                     margin: EdgeInsets.fromLTRB(80.0, 30.0, 0.0, 0.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          child: Text(
-                            "Not a Member?,  ",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.normal,
+                    child: Expanded(
+                      child: Row(
+                        children: [
+                          Container(
+                            child: Text(
+                              "Not a Member?,  ",
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.normal,
+                              ),
                             ),
                           ),
-                        ),
-                        TextButton(
-                            onPressed: () async {
-                              widget.toggleView();
-                            },
-                            child: Text('Register'),
-                            style: TextButton.styleFrom(
-                            primary: Colors.red
-                            )
-                        )
-                      ],
+                          TextButton(
+                              onPressed: () async {
+                                widget.toggleView();
+
+                              },
+                              child: Text('Register'),
+                              style: TextButton.styleFrom(
+                              primary: Colors.red
+                              )
+                          )
+                        ],
+                      ),
                     ),
                   ),
 
                   TextButton(
                       onPressed: () async {
+
                       },
                       child: Text('Forgot Password?'),
                       style: TextButton.styleFrom(
                           primary: Colors.red
                       )
                   )
-
-                  // Anonymous Lo
 
                 ],
               ),
@@ -165,18 +160,17 @@ class _LoginPage extends State<LoginPage> {
     );
   }
 
-  Future<void> login() async {
-    dynamic result = await _authenticate.loginUser(
-        _emailController.text, _passwordController.text
-    );
-    if (result == null) {
-      print("Error Logging in, Please check your Username and password");
-
-    }else {
-      _emailController.clear();
-      _passwordController.clear();
-      print('Successfully Logged in');
-
-    }
-  }
+  // Future<void> login() async {
+  //   dynamic result = await _authenticate.loginUser(_emailController.text, _passwordController.text);
+  //   Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+  //   // if (result == null) {
+  //   //   print('Successfully Logged in');
+  //   //   Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+  //   //
+  //   // }else {
+  //   //   print("Error Logging in, Please check your Username and password");
+  //   //   //_emailController.clear();
+  //   //   //_passwordController.clear();
+  //   // }
+  // }
 }

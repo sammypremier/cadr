@@ -9,7 +9,8 @@
       "client_info": {
         "mobilesdk_app_id": "1:548971694059:android:7ed8a08ef15226b91a3bae",
         "android_client_info": {
-          "package_name": "com.Center_Ageing_and_Dementia_Research.cadr"
+          //"package_name": "com.Center_Ageing_and_Dementia_Research.cadr"
+          "package_name": "com.cadr.cadr"
         }
       },
       "oauth_client": [

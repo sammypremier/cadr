@@ -7,13 +7,6 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.green[50],
-      // // App Bar
-      // appBar: AppBar(
-      //   title: Text("CADR"),
-      //   centerTitle: true,
-      //   backgroundColor: Colors.green[200],
-      // ),
-
       // The body
         body: Padding(
             padding: EdgeInsets.fromLTRB(0.0, 65.0, 0.0, 0.0),
@@ -23,21 +16,23 @@ class WelcomePage extends StatelessWidget {
                 children: [
                   //Container Row that contains the logo and the Name
                   Container(
-                    child: Row(
-                      mainAxisAlignment : MainAxisAlignment.center,
-                      children: [
-                        // container that contains the logo
-                        Container(
-                          margin: EdgeInsets.fromLTRB(70.0, 0.0, 0.0, 0.0),
-                          child: Image(
-                            image: AssetImage("assets/cadr-logo.png"),
-                            height: 130,
-                            width: 130,
-                          ),
+                    child: Expanded(
+                      child: Row(
+                        mainAxisAlignment : MainAxisAlignment.center,
+                        children: [
+                          // container that contains the logo
+                          Container(
+                            margin: EdgeInsets.fromLTRB(70.0, 0.0, 0.0, 0.0),
+                            child: Image(
+                              image: AssetImage("assets/cadr-logo.png"),
+                              height: 130,
+                              width: 130,
+                            ),
 
-                        ),
-                        SizedBox(width: 70.0,)
-                      ],
+                          ),
+                          SizedBox(width: 70.0,)
+                        ],
+                      ),
                     ),
                   ),
 

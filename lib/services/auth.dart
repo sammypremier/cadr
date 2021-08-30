@@ -1,19 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cadr/models/user.dart';
+
+
 
 class AuthenticationService {
-  final FirebaseAuth _authenticate = FirebaseAuth.instance;
+  final FirebaseAuth _authenticate;
 
-  //create user object on the firebaseUser
-  User? _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
-  }
+  AuthenticationService(this._authenticate);
 
-  // Auth Change User Streams
-  Stream<User?> get user {
-    return _authenticate.onAuthStateChanged
-    .map(_userFromFirebaseUser);
-  }
+  Stream<User?> get authStateChanges => _authenticate.idTokenChanges();
+
 
   // Log out function
   Future signOut() async {
@@ -21,32 +16,30 @@ class AuthenticationService {
       return await _authenticate.signOut();
     } catch(e){
       print(e.toString());
-      return null;
+      //return null;
     }
   }
   //Register Function
-  Future registerToDataBase (String email, String password) async {
+  Future registerUser (String email, String password) async {
     try {
-      AuthResult result = await _authenticate.createUserWithEmailAndPassword(
+      await _authenticate.createUserWithEmailAndPassword(
           email: email, password: password
       );
-      FirebaseUser user = result.user;
-      //return _userFromFirebaseUser(user);
-      return user;
+      return "Logged in";
+      //return user;
     }catch(e){
       print(e.toString());
-      return null;
+      //return null;
     }
   }
 
-  //Register Function
+  //Loginuser method
   Future loginUser (String email, String password) async {
     try {
-      AuthResult result = await _authenticate.signInWithEmailAndPassword(
+      await _authenticate.signInWithEmailAndPassword(
           email: email, password: password
       );
-      FirebaseUser user = result.user;
-      return user;
+      return "Logged in";
     }catch(e){
       print(e.toString());
       //return null;

@@ -1,6 +1,6 @@
 import 'package:cadr/services/auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import 'loginpage.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -13,12 +13,9 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationState extends State<RegistrationPage> {
-  final AuthenticationService _authenticate = AuthenticationService();
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _emailController = TextEditingController();
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
 
@@ -55,23 +52,23 @@ class _RegistrationState extends State<RegistrationPage> {
                   ),
 
                   //First Name Column
-                  TextFormField(
-                    controller: _firstNameController,
-                    validator: (val) {
-                      if (val!.isEmpty) {
-                        return 'Please put First Name';
-                      }else {
-                        return null;
-                      }
-                    },
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                        ),
-
-                        labelText: "First Name"
-                    ),
-                    //validator: validateName,
-                  ),
+                  // TextFormField(
+                  //   controller: _firstNameController,
+                  //   validator: (val) {
+                  //     if (val!.isEmpty) {
+                  //       return 'Please put First Name';
+                  //     }else {
+                  //       return null;
+                  //     }
+                  //   },
+                  //   decoration: InputDecoration(
+                  //       border: OutlineInputBorder(
+                  //       ),
+                  //
+                  //       labelText: "First Name"
+                  //   ),
+                  //   //validator: validateName,
+                  // ),
 
                   // First Name Padding
                   Padding(
@@ -81,23 +78,23 @@ class _RegistrationState extends State<RegistrationPage> {
                   ),
 
                   //Last Name Column
-                  TextFormField(
-                    controller: _lastNameController,
-                    validator: (val) {
-                      if (val!.isEmpty) {
-                        return 'Please put Last Name';
-                      }else {
-                        return null;
-                      }
-                    },
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                        ),
-
-                        labelText: "Last Name"
-                    ),
-                    //validator: validateName,
-                  ),
+                  // TextFormField(
+                  //   controller: _lastNameController,
+                  //   validator: (val) {
+                  //     if (val!.isEmpty) {
+                  //       return 'Please put Last Name';
+                  //     }else {
+                  //       return null;
+                  //     }
+                  //   },
+                  //   decoration: InputDecoration(
+                  //       border: OutlineInputBorder(
+                  //       ),
+                  //
+                  //       labelText: "Last Name"
+                  //   ),
+                  //   //validator: validateName,
+                  // ),
 
                   //Last Name Padding
                   Padding(
@@ -159,10 +156,18 @@ class _RegistrationState extends State<RegistrationPage> {
 
                   FlatButton.icon(
                     onPressed: () async {
-                      if(_formKey.currentState!.validate()){
-                        createUser();
+                      final String email = _emailController.text.trim();
+                      final String password = _passwordController.text.trim();
 
-                      }
+
+                      // if(email.isEmpty|| password.isEmpty) {
+                      //   //return null;
+                      // }else{
+                      //   context.read<AuthenticationService>().registerUser(
+                      //     email,
+                      //     password,
+                      //   );
+                      // }
                     },
                     icon: Icon(
                       Icons.assignment_ind_outlined,
@@ -176,27 +181,29 @@ class _RegistrationState extends State<RegistrationPage> {
 
                   Container(
                     margin: EdgeInsets.fromLTRB(80.0, 0.0, 0.0, 0.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          child: Text(
-                            "Already Registered?,  ",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.normal,
+                    child: Expanded(
+                      child: Row(
+                        children: [
+                          Container(
+                            child: Text(
+                              "Already Registered?,  ",
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.normal,
+                              ),
                             ),
                           ),
-                        ),
-                        TextButton(
-                            onPressed: () async {
-                              widget.toggleView();
-                            },
-                            child: Text('Login'),
-                            style: TextButton.styleFrom(
-                                primary: Colors.red
-                            )
-                        )
-                      ],
+                          TextButton(
+                              onPressed: () async {
+                                widget.toggleView();
+                              },
+                              child: Text('Login'),
+                              style: TextButton.styleFrom(
+                                  primary: Colors.red
+                              )
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -206,24 +213,6 @@ class _RegistrationState extends State<RegistrationPage> {
         ),
       ),
     );
-  }
-
-
-  void createUser() async {
-  dynamic result = await _authenticate.registerToDataBase(
-    _emailController.text, _passwordController.text
-  );
-  if (result == null) {
-    print("Invalid Email Address");
-
-  }else {
-    print(result.toString());
-    _firstNameController.clear();
-    _lastNameController.clear();
-    _emailController.clear();
-    _passwordController.clear();
-
-  }
   }
 }
 
