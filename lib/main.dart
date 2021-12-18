@@ -8,34 +8,33 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
-  await Firebase.initializeApp();
+
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
     runApp(Cadr());
-
-
 }
 
 //The Root Method that runs the application.
 class Cadr extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          Provider<AuthenticationService>(
-            create: (_) => AuthenticationService(FirebaseAuth.instance),
-          ),
-          StreamProvider(
-            create: (context) => context.read<AuthenticationService>().
-                                            authStateChanges, initialData: null, 
-          ),
-        ],
+    return Container(
+        // providers: [
+        //   Provider<AuthenticationService>(
+        //     create: (_) => AuthenticationService(FirebaseAuth.instance),
+        //   ),
+        //   StreamProvider(
+        //     create: (context) => context.read<AuthenticationService>().
+        //                                     authStateChanges, initialData: null,
+        //   ),
+        // ],
         child: MaterialApp(
           title: "CADR",
           home: Wrapper(),
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.lightGreen,
           )
 
         )

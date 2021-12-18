@@ -1,4 +1,4 @@
-import 'package:cadr/pages/authenticate/authenticate.dart';
+import 'package:cadr/pages/authenticate/loginOrRegisterPage.dart';
 import 'package:flutter/material.dart';
 
 //The home class
@@ -6,7 +6,7 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.green[50],
+        backgroundColor: Colors.white,
       // The body
         body: Padding(
             padding: EdgeInsets.fromLTRB(0.0, 65.0, 0.0, 0.0),
@@ -16,31 +16,29 @@ class WelcomePage extends StatelessWidget {
                 children: [
                   //Container Row that contains the logo and the Name
                   Container(
-                    child: Expanded(
-                      child: Row(
-                        mainAxisAlignment : MainAxisAlignment.center,
-                        children: [
-                          // container that contains the logo
-                          Container(
-                            margin: EdgeInsets.fromLTRB(70.0, 0.0, 0.0, 0.0),
-                            child: Image(
-                              image: AssetImage("assets/cadr-logo.png"),
-                              height: 130,
-                              width: 130,
-                            ),
-
+                    child: Row(
+                      mainAxisAlignment : MainAxisAlignment.center,
+                      children: [
+                        // container that contains the logo
+                        Container(
+                          margin: EdgeInsets.fromLTRB(70.0, 0.0, 0.0, 0.0),
+                          child: Image(
+                            image: AssetImage("assets/cadr_logo.png"),
+                            height: 130,
+                            width: 130,
                           ),
-                          SizedBox(width: 70.0,)
-                        ],
-                      ),
+
+                        ),
+                        SizedBox(width: 70.0,)
+                      ],
                     ),
                   ),
 
                   //Container that wraps the home page picture
                   Container(
-                    margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 60.0),
+                    margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 50.0),
                     child: Image(
-                      image: AssetImage("assets/dementia.png"),
+                      image: AssetImage("assets/dementia.jpg"),
 
                     ),
                   ),
@@ -50,7 +48,7 @@ class WelcomePage extends StatelessWidget {
                     child: Text(
                       "WELCOME",
                       style: TextStyle(
-                        color: Colors.amber,
+                        color: Color(0xFF05818F),
                         fontSize: 35.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -58,12 +56,12 @@ class WelcomePage extends StatelessWidget {
                   ),
 
                   Container(
-                    margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 110.0),
+                    margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 60.0),
                     child: Text(
-                      "Information about Dementia is now at your immediate reach",
+                      "Information about Ageing and Dementia is now at your fingers tips",
                       style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 14.0,
+                          color: Colors.black,
+                          fontSize: 12.0,
                           fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -73,15 +71,16 @@ class WelcomePage extends StatelessWidget {
                   Container(
                     child: FlatButton.icon(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Authenticate()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginOrRegister()));
                       },
                       icon: Icon(
                           Icons.login
                       ),
                       label: Text("CONTINUE"),
-                      color: Colors.green[200],
+                      textColor: Colors.white,
+                      color: Color(0xFF05818F),
                       minWidth: 350,
-                      height: 40,
+                      height: 45,
                     ),
                   )
                 ],

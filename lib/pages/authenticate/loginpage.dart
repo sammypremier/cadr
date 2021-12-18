@@ -2,7 +2,6 @@ import 'package:cadr/pages/homepage/homepage.dart';
 import 'package:cadr/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -12,7 +11,6 @@ class LoginPage extends StatefulWidget {
   @override
   _LoginPage createState() => _LoginPage();
 }
-
 class _LoginPage extends State<LoginPage> {
   //final AuthenticationService _authenticate = AuthenticationService();
   final GlobalKey _formKey = GlobalKey<FormState>();
@@ -23,7 +21,7 @@ class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[50],
+      backgroundColor: Colors.white,
 
       body: Container(
         padding: EdgeInsets.all(
@@ -31,7 +29,7 @@ class _LoginPage extends State<LoginPage> {
         ),
         child: Center(
           child: Form(
-            autovalidate: true,
+            autovalidateMode: AutovalidateMode.always,
             key: _formKey,
             child: SingleChildScrollView(
               child: Column(
@@ -51,7 +49,7 @@ class _LoginPage extends State<LoginPage> {
                       if (val!.isEmpty) {
                         return 'Email Cannot be Empty';
                       }else {
-                        return null;
+                        return val;
                       }
                     },
                     decoration: InputDecoration(
@@ -73,7 +71,7 @@ class _LoginPage extends State<LoginPage> {
                       if (val!.isEmpty) {
                         return 'Password Cannot be Empty';
                       }else {
-                        return null;
+                        return val;
                       }
                     },
                     decoration: InputDecoration(
@@ -100,7 +98,7 @@ class _LoginPage extends State<LoginPage> {
                             password,
                           );
                         }
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                       },
                       icon: Icon(
                           Icons.login
@@ -114,30 +112,28 @@ class _LoginPage extends State<LoginPage> {
 
                   Container(
                     margin: EdgeInsets.fromLTRB(80.0, 30.0, 0.0, 0.0),
-                    child: Expanded(
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Text(
-                              "Not a Member?,  ",
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.normal,
-                              ),
+                    child: Row(
+                      children: [
+                        Container(
+                          child: Text(
+                            "Not a Member?,  ",
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
-                          TextButton(
-                              onPressed: () async {
-                                widget.toggleView();
+                        ),
+                        TextButton(
+                            onPressed: () async {
+                              widget.toggleView();
 
-                              },
-                              child: Text('Register'),
-                              style: TextButton.styleFrom(
-                              primary: Colors.red
-                              )
-                          )
-                        ],
-                      ),
+                            },
+                            child: Text('Register'),
+                            style: TextButton.styleFrom(
+                            primary: Colors.red
+                            )
+                        )
+                      ],
                     ),
                   ),
 
@@ -159,18 +155,4 @@ class _LoginPage extends State<LoginPage> {
       ),
     );
   }
-
-  // Future<void> login() async {
-  //   dynamic result = await _authenticate.loginUser(_emailController.text, _passwordController.text);
-  //   Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-  //   // if (result == null) {
-  //   //   print('Successfully Logged in');
-  //   //   Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-  //   //
-  //   // }else {
-  //   //   print("Error Logging in, Please check your Username and password");
-  //   //   //_emailController.clear();
-  //   //   //_passwordController.clear();
-  //   // }
-  // }
 }

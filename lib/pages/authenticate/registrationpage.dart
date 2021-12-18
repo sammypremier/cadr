@@ -1,7 +1,7 @@
+import 'package:cadr/pages/homepage/homepage.dart';
 import 'package:cadr/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'loginpage.dart';
 
 class RegistrationPage extends StatefulWidget {
 
@@ -23,7 +23,7 @@ class _RegistrationState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[50],
+      backgroundColor: Colors.white,
 
       body: Container(
         padding: EdgeInsets.all(
@@ -33,7 +33,7 @@ class _RegistrationState extends State<RegistrationPage> {
         //Registration Form
         child: Center(
           child: Form(
-            autovalidate: true,
+              autovalidateMode: AutovalidateMode.always,
             key: _formKey,
             // Registration Columns
             child: SingleChildScrollView(
@@ -50,51 +50,6 @@ class _RegistrationState extends State<RegistrationPage> {
                     ),
 
                   ),
-
-                  //First Name Column
-                  // TextFormField(
-                  //   controller: _firstNameController,
-                  //   validator: (val) {
-                  //     if (val!.isEmpty) {
-                  //       return 'Please put First Name';
-                  //     }else {
-                  //       return null;
-                  //     }
-                  //   },
-                  //   decoration: InputDecoration(
-                  //       border: OutlineInputBorder(
-                  //       ),
-                  //
-                  //       labelText: "First Name"
-                  //   ),
-                  //   //validator: validateName,
-                  // ),
-
-                  // First Name Padding
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 15.0,
-                    ),
-                  ),
-
-                  //Last Name Column
-                  // TextFormField(
-                  //   controller: _lastNameController,
-                  //   validator: (val) {
-                  //     if (val!.isEmpty) {
-                  //       return 'Please put Last Name';
-                  //     }else {
-                  //       return null;
-                  //     }
-                  //   },
-                  //   decoration: InputDecoration(
-                  //       border: OutlineInputBorder(
-                  //       ),
-                  //
-                  //       labelText: "Last Name"
-                  //   ),
-                  //   //validator: validateName,
-                  // ),
 
                   //Last Name Padding
                   Padding(
@@ -159,15 +114,16 @@ class _RegistrationState extends State<RegistrationPage> {
                       final String email = _emailController.text.trim();
                       final String password = _passwordController.text.trim();
 
+                      if(email.isEmpty|| password.isEmpty) {
+                        return null;
+                      }else{
+                        context.read<AuthenticationService>().registerUser(
+                          email,
+                          password,
+                        );
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                      }
 
-                      // if(email.isEmpty|| password.isEmpty) {
-                      //   //return null;
-                      // }else{
-                      //   context.read<AuthenticationService>().registerUser(
-                      //     email,
-                      //     password,
-                      //   );
-                      // }
                     },
                     icon: Icon(
                       Icons.assignment_ind_outlined,
@@ -181,29 +137,27 @@ class _RegistrationState extends State<RegistrationPage> {
 
                   Container(
                     margin: EdgeInsets.fromLTRB(80.0, 0.0, 0.0, 0.0),
-                    child: Expanded(
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Text(
-                              "Already Registered?,  ",
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.normal,
-                              ),
+                    child: Row(
+                      children: [
+                        Container(
+                          child: Text(
+                            "Already Registered?,  ",
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
-                          TextButton(
-                              onPressed: () async {
-                                widget.toggleView();
-                              },
-                              child: Text('Login'),
-                              style: TextButton.styleFrom(
-                                  primary: Colors.red
-                              )
-                          )
-                        ],
-                      ),
+                        ),
+                        TextButton(
+                            onPressed: () async {
+                              widget.toggleView();
+                            },
+                            child: Text('Login'),
+                            style: TextButton.styleFrom(
+                                primary: Colors.red
+                            )
+                        )
+                      ],
                     ),
                   ),
                 ],
